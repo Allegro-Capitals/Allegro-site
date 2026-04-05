@@ -1,6 +1,6 @@
 import {React,useState,useRef} from 'react';
 import { TrendingUp, Shield, Users, Star, CheckCircle, ArrowRight, Briefcase, PieChart } from 'lucide-react';
-import HomeIb from "../assets/AllegroOffice1.jpg";
+import HomeIb from "../assets/about.jpg";
 import { Link } from 'react-router-dom';
 import logo from "../assets/logo.png"
 import Footer from "../components/Footer";

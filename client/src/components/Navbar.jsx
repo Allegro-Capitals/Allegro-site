@@ -18,7 +18,7 @@ const sidebarMenus = [
         links: [
           { label: "Private Banking", to: "/private-banking" },
           { label: "Asset Management", to: "/asset-management" },
-          { label: "Investor Login", to: "/ipo" }
+          { label: "Investor Login", to: "https://investors.allegroadvisors.com/authentication/login" }
         ]
       }
     ]
@@ -116,17 +116,32 @@ const Sidebar = ({ open, onClose }) => {
                   <div key={col.section} className="mb-2">
                     <div className=" font-medium text-gray-700 mt-2 mb-1 pl-4">{col.section}</div>
                     <ul>
-                      {col.links.map(link =>
-                        <li key={link.to}>
-                          <Link
-                            to={link.to}
-                            className="block px-6 py-2 text-slate-700 hover:bg-red-100 hover:text-red-600 rounded transition"
-                            onClick={onClose}
-                          >
-                            {link.label}
-                          </Link>
-                        </li>
-                      )}
+                      {col.links.map(link => {
+                        const isExternal = link.to.startsWith('http');
+                        return (
+                          <li key={link.to}>
+                            {isExternal ? (
+                              <a
+                                href={link.to}
+                                className="block px-6 py-2 text-slate-700 hover:bg-red-100 hover:text-red-600 rounded transition"
+                                onClick={onClose}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {link.label}
+                              </a>
+                            ) : (
+                              <Link
+                                to={link.to}
+                                className="block px-6 py-2 text-slate-700 hover:bg-red-100 hover:text-red-600 rounded transition"
+                                onClick={onClose}
+                              >
+                                {link.label}
+                              </Link>
+                            )}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 ))}
@@ -250,13 +265,15 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="/ipo"
+              <a
+                href="https://investors.allegroadvisors.com/authentication/login"
                 onClick={() => setOpenDropdown(null)}
                 className="text-slate-700 hover:text-red-600"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Investor Login
-              </Link>
+              </a>
             </li>
           </ul>
         </div>

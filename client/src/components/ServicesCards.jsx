@@ -2,9 +2,10 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { Link } from 'react-router-dom'; 
-import PrivateIB from '../assets/Office2.jpg';
-import CorporateFinance from "../assets/office3.jpg";
-import FamilyIB from "../assets/AllegroOffice1.jpg";
+import PrivateIB from '../assets/case.jpg';
+import CorporateFinance from "../assets/investment.jpg";
+import FamilyIB from "../assets/about.jpg";
+import AssetIMG from "../assets/asset.jpg"
 const cards = [
   {
     image: CorporateFinance,
@@ -31,7 +32,7 @@ const cards = [
     
   },
   {
-    image: FamilyIB,
+    image: AssetIMG,
     heading: "Asset Management",
     description:
       "Allegro Capital provides tailored asset management solutions designed to preserve, grow, and optimize wealth. We work closely with clients to align portfolios with their long-term financial goals and risk preferences.",
@@ -43,15 +44,16 @@ const cards = [
 const ServicesCards = () => {
   const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold: 0.1,
+    threshold: 0,
+    rootMargin: '200px',
   });
 
   return (
     <section ref={ref} className="pt-20 pb-10  relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400 rounded-full blur-3xl"></div>
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative ">
@@ -69,19 +71,18 @@ const ServicesCards = () => {
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
           {cards.map((card, index) => (
-            <div
+            <Link
               key={index}
-              className={`group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 opacity-0 ${inView ? 'animate-fade-in-up' : ''} cursor-pointer`}
-              style={{ animationDelay: `${index * 200}ms` }}
-              onClick={() => window.location.href = card.link}
+              to={card.link}
+              className={`group relative block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 opacity-0 ${inView ? 'animate-fade-in-up' : ''} cursor-pointer`}
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Image container with overlay */}
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={card.image}
                   alt={card.heading}
-                  loading="lazy"
-                  className="w-full h-full object-cover "
+                  className="w-full h-full object-cover"
                 />
                 
                 {/* Gradient overlay */}
@@ -129,7 +130,7 @@ const ServicesCards = () => {
               <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                 <div className="absolute inset-0 rounded-2xl shadow-2xl bg-gradient-to-r from-slate-600/10 via-blue-100/10 to-blue-500/10"></div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

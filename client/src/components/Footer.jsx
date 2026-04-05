@@ -62,7 +62,7 @@ const Footer = () => {
       {/* Social Media Section */}
       <div className="py-3 mt-6">
         <div className="flex justify-center space-x-6">
-        <a href="https://linkedin.com" className="text-red-600" aria-label="LinkedIn"><Linkedin size={20} /></a>
+        <a href="https://www.linkedin.com/company/allegro-capital-advisors/" className="text-red-600" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><Linkedin size={20} /></a>
           {/* <a href="https://instagram.com" className="text-red-600" aria-label="Instagram"><Instagram size={20} /></a> */}
         </div>
       </div>

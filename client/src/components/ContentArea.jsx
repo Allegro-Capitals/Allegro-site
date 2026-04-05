@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 const ContentArea = ({ selected }) => {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const isTransaction = selected === 'Transactions';
@@ -51,12 +52,12 @@ const totalPages = Math.ceil(data.length / itemsPerPage);
     setLoading(true);
     try {
       let url = '';
-      if (isTransaction) url = `/api/transactions/getAllTransactions`;
-      else if (isNewsletter) url = `/api/newsletter/getAllNewsletters`;
-      else if(isCase) url =`/api/cases/getAllCase`;
-      else if(isReports) url=`/api/assets/getAllAssets`;
-      else if(isAward) url=`/api/awards`;
-      else if(isNews) url=`/api/news/getAllNews`;
+      if (isTransaction) url = `${API_BASE}/api/transactions/getAllTransactions`;
+      else if (isNewsletter) url = `${API_BASE}/api/newsletter/getAllNewsletters`;
+      else if(isCase) url =`${API_BASE}/api/cases/getAllCase`;
+      else if(isReports) url=`${API_BASE}/api/assets/getAllAssets`;
+      else if(isAward) url=`${API_BASE}/api/awards`;
+      else if(isNews) url=`${API_BASE}/api/news/getAllNews`;
       const response = await fetch(url);
       console.log(response);
       const result = await response.json();
@@ -75,19 +76,19 @@ const handleDelete = async (id) => {
     let endpoint = "";
 
     if (isTransaction) {
-      endpoint = `/api/transactions/deleteTransaction/${id}`;
+      endpoint = `${API_BASE}/api/transactions/deleteTransaction/${id}`;
     } else if (isNewsletter) {
-      endpoint = `/api/newsletter/deleteNewsletter/${id}`;
+      endpoint = `${API_BASE}/api/newsletter/deleteNewsletter/${id}`;
     } else if (isCase) {
-      endpoint = `/api/cases/deleteCase/${id}`;
+      endpoint = `${API_BASE}/api/cases/deleteCase/${id}`;
     }else if (isAward) {
-      endpoint = `/api/awards/${id}`;
+      endpoint = `${API_BASE}/api/awards/${id}`;
     }
     else if (isReports) {
-      endpoint = `/api/assets/deleteAsset/${id}`;
+      endpoint = `${API_BASE}/api/assets/deleteAsset/${id}`;
     }
     else if(isNews){
-      endpoint=`/api/news/deleteNews/${id}`;
+      endpoint=`${API_BASE}/api/news/deleteNews/${id}`;
         }
 
     if (!endpoint) throw new Error("No valid delete endpoint");
@@ -158,33 +159,33 @@ const handleDelete = async (id) => {
 
     if (isTransaction) {
       url = isEditing
-        ? `/api/transactions/updateTransaction/${editId}`
-        : `/api/transactions/createTransaction`;
+        ? `${API_BASE}/api/transactions/updateTransaction/${editId}`
+        : `${API_BASE}/api/transactions/createTransaction`;
     } else if (isNewsletter) {
       url = isEditing
-        ? `/api/newsletter/updateNewsletter/${editId}`
-        : `/api/newsletter/createNewsletter`;
+        ? `${API_BASE}/api/newsletter/updateNewsletter/${editId}`
+        : `${API_BASE}/api/newsletter/createNewsletter`;
     }
     else if (isCase) {
       url = isEditing
-        ? `/api/cases/updateCase/${editId}`
-        : `/api/cases/createCase`;
+        ? `${API_BASE}/api/cases/updateCase/${editId}`
+        : `${API_BASE}/api/cases/createCase`;
     }
      else if (isAward) {
       url = isEditing
-        ? `/api/awards/${editId}`
-        : `/api/awards`;
+        ? `${API_BASE}/api/awards/${editId}`
+        : `${API_BASE}/api/awards`;
     }
     else if (isReports) {
       url = isEditing
-        ? `/api/assets/updateAsset/${editId}`
-        : `/api/assets/createAsset`;
+        ? `${API_BASE}/api/assets/updateAsset/${editId}`
+        : `${API_BASE}/api/assets/createAsset`;
     }
 
     else if (isNews) {
       url = isEditing
-        ? `/api/news/updateNews/${editId}`
-        : `/api/news/createNews`;
+        ? `${API_BASE}/api/news/updateNews/${editId}`
+        : `${API_BASE}/api/news/createNews`;
     }
     const formData = new FormData();
     for (const key in form) {
@@ -836,78 +837,84 @@ const handleDelete = async (id) => {
           </div>
         ) : currentItems.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-200">
-              <thead className="bg-slate-100">
-                <tr>
-                  {Object.keys(currentItems[0])
-                    .filter((key) => key !== '_id' && key !== '__v'&& key!=='updatedAt' && key!=='createdAt')
-                    .map((key) => (
-                      <th
-                        key={key}
-                        className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider border-r border-slate-200 last:border-r-0"
-                      >
-                        {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                      </th>
-                    ))}
-                  <th className="px-6 py-4 text-center text-xs font-bold text-slate-700 uppercase tracking-wider w-32">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-slate-200">
-                {currentItems.map((item, index) => (
-                  <tr key={item._id} className={`hover:bg-slate-50 transition-colors duration-200 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-25'}`}>
-                    {Object.entries(item)
-                      .filter(([key]) => key !== '_id' && key !== '__v' && key!=='updatedAt'&& key!=='createdAt')
-                      .map(([key, val]) => (
-                        <td
+            {(() => {
+              const columns = Array.from(new Set(currentItems.flatMap(item => Object.keys(item))))
+                .filter(key => !['_id', '__v', 'updatedAt', 'createdAt'].includes(key));
+              
+              return (
+                <table className="min-w-full divide-y divide-slate-200">
+                  <thead className="bg-slate-100">
+                    <tr>
+                      {columns.map((key) => (
+                        <th
                           key={key}
-                          title={String(val)}
-                          className={`px-6 py-4 border-r border-slate-200 last:border-r-0 ${
-                            key === 'description' ? 'max-w-[250px]' : 
-                            key === 'heading' ? 'max-w-[200px]' : 
-                            key.includes('Pic') ? 'max-w-[150px]' : ''
-                          } ${key === 'description' || key === 'heading' || key.includes('Pic') ? 'truncate whitespace-nowrap overflow-hidden' : ''}`}
+                          className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider border-r border-slate-200 last:border-r-0"
                         >
-                          {typeof val === 'string' && val.startsWith('http') ? (
-                            <div className="flex justify-center">
-                              <img
-                                src={val}
-                                alt="Preview"
-                                className="h-16 w-16 object-cover rounded-lg border-2 border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200"
-                              />
-                            </div>
-                          ) : (
-                            <span className="text-slate-700 font-medium">
-                              {String(val)}
-                            </span>
-                          )}
-                        </td>
+                          {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </th>
                       ))}
-                    <td className="px-6 py-4 text-center space-y-2">
-                      <button
-                        onClick={() => handleUpdate(item)}
-                        className="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 text-sm flex items-center justify-center space-x-1"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                        <span>Edit</span>
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item._id)}
-                        className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 text-sm flex items-center justify-center space-x-1"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                        <span>Delete</span>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      <th className="px-6 py-4 text-center text-xs font-bold text-slate-700 uppercase tracking-wider w-32">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-slate-200">
+                    {currentItems.map((item, index) => (
+                      <tr key={item._id} className={`hover:bg-slate-50 transition-colors duration-200 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-25'}`}>
+                        {columns.map((key) => {
+                          const val = item[key];
+                          return (
+                            <td
+                              key={key}
+                              title={val !== undefined && val !== null ? String(val) : ''}
+                              className={`px-6 py-4 border-r border-slate-200 last:border-r-0 ${
+                                key === 'description' ? 'max-w-[250px]' : 
+                                key === 'heading' ? 'max-w-[200px]' : 
+                                key.includes('Pic') ? 'max-w-[150px]' : ''
+                              } ${key === 'description' || key === 'heading' || key.includes('Pic') ? 'truncate whitespace-nowrap overflow-hidden' : ''}`}
+                            >
+                              {typeof val === 'string' && val.startsWith('http') ? (
+                                <div className="flex justify-center">
+                                  <img
+                                    src={val}
+                                    alt="Preview"
+                                    className="h-16 w-16 object-cover rounded-lg border-2 border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200"
+                                  />
+                                </div>
+                              ) : (
+                                <span className="text-slate-700 font-medium">
+                                  {val !== undefined && val !== null ? String(val) : '-'}
+                                </span>
+                              )}
+                            </td>
+                          );
+                        })}
+                        <td className="px-6 py-4 text-center space-y-2">
+                          <button
+                            onClick={() => handleUpdate(item)}
+                            className="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 text-sm flex items-center justify-center space-x-1"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 text-sm flex items-center justify-center space-x-1"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            <span>Delete</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              );
+            })()}
 
             {/* Enhanced Pagination */}
             <div className="bg-slate-50 px-6 py-4 border-t border-slate-200">

@@ -3,7 +3,7 @@ import Person from "../assets/Person.jpeg"
 import { useEffect } from "react"; // already likely imported
 import { Linkedin } from "lucide-react";
 import Krushi from "../assets/Krushi_Bandi.jpeg"
-import Abhisekh from "../assets/Abhisekh_Shetty.jpeg"
+import Abhisekh from "../assets/abhisekh.jpeg"
 import Anmol from "../assets/Anmol_Garg.jpeg"
 import Ayush from "../assets/ayushallegro.jpeg"
 import Kunal from "../assets/kunalalegro.jpeg"

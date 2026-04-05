@@ -3,23 +3,33 @@ import React from 'react';
 const timelineData = [
   {
     title: "Firm Founded",
-    description: "Allegro Advisors was established with a mission to deliver expert financial advice and strategic solutions to clients across sectors.",
-    date: "January 2008"
+    description: "Founded in Bangalore by Kunal Kashyap and Shyam Powar, establishing a strong foundation for excellence in financial advisory.",
+    date: "2002"
   },
   {
-    title: "Investment Banking Milestone",
-    description: "Successfully advised on landmark M&A transactions, strengthening our reputation as a trusted investment banking partner.",
-    date: "September 2012"
+    title: "Biocon IPO",
+    description: "Advised on the landmark INR 3,400 Cr Initial Public Offering of Biocon, marking a significant early milestone for the firm.",
+    date: "2004"
   },
   {
-    title: "Asset & Wealth Management Expansion",
-    description: "Launched comprehensive private banking and asset management services tailored to high-net-worth individuals.",
-    date: "June 2016"
+    title: "Legacy Relationships",
+    description: "Forged enduring relationships with prominent Bangalore-based founders, successfully securing legacy clients such as Manipal and Narayana Health (NH).",
+    date: "2004-10"
   },
   {
-    title: "Strategic Growth & Global Partnerships",
-    description: "Formed global strategic partnerships to enhance advisory services and deepen market expertise.",
-    date: "March 2021"
+    title: "Sector Specialists",
+    description: "Executed multiple strategic, smaller-scale deals, firmly cementing our market position as premier Healthcare and Life Sciences specialists.",
+    date: "2010-20"
+  },
+  {
+    title: "Landmark Transactions",
+    description: "Advised on multiple landmark transactions, including the largest Private Equity deal in Indian healthcare services and the largest biosimilars acquisition in the country.",
+    date: "2021-23"
+  },
+  {
+    title: "Market Leadership",
+    description: "Continued strong momentum with the largest outbound acquisition of healthcare services, the largest single-specialty control deal, and multiple strategic acquisitions aimed at building India's largest healthcare network.",
+    date: "2024-26"
   }
 ];
 

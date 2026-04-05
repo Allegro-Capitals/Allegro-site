@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Feature = () => {
   const [deals, setDeals] = useState([]);
@@ -27,17 +28,7 @@ const Feature = () => {
     fetchDeals();
   }, []);
 
-  // Auto-slide every 4 seconds (slightly longer for better UX)
-  useEffect(() => {
-    if (deals.length === 0) return;
-    
-    const interval = setInterval(() => {
-      setSlideDirection('next');
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % deals.length);
-    }, 4000);
 
-    return () => clearInterval(interval);
-  }, [deals]);
 
   const goToIndex = (index) => {
     setSlideDirection(index > currentIndex ? 'next' : 'prev');
@@ -92,58 +83,59 @@ const Feature = () => {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto py-12 px-4">
+    <div className="w-full max-w-6xl mx-auto py-8 px-4">
       {/* Header */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-6">
         <h2 className="text-2xl lg:text-3xl font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent ">
           Featured Investment Deals
         </h2>
       </div>
 
       <div className="relative group">
-        <div className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
-          <div className="flex flex-col lg:flex-row ">
+        <div className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden lg:h-[350px]">
+          <div className="flex flex-col lg:flex-row lg:h-full">
             
             {/* Image Section */}
-            <div className="w-full lg:w-2/5 relative overflow-hidden">
-            
-              <img
-                src={deals[currentIndex]?.mainPic}
-                alt={deals[currentIndex]?.heading}
-                className="w-auto h-auto mx-auto lg:h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+            <div className="w-full lg:w-2/5 relative bg-white flex items-center justify-center p-4 border-b lg:border-b-0 lg:border-r border-slate-100 lg:h-full">
+              <div className="relative w-full h-64 lg:h-full flex items-center justify-center overflow-hidden">
+                <img
+                  src={deals[currentIndex]?.mainPic}
+                  alt={deals[currentIndex]?.heading}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
               
               {/* Navigation Arrows */}
               <button
                 onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 border border-slate-200"
               >
                 ←
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 border border-slate-200"
               >
                 →
               </button>
             </div>
 
             {/* Content Section */}
-            <div className="w-full lg:w-3/5 p-8 lg:p-12 flex flex-col justify-center">
+            <div className="w-full lg:w-3/5 p-6 lg:p-8 flex flex-col justify-center">
               <div className={`transform transition-all duration-500 ${slideDirection === 'next' ? 'animate-slideInRight' : 'animate-slideInLeft'}`}>
                 
                 {/* Deal Title */}
-                <h3 className="text-xl lg:text-2xl font-medium text-gray-700 mb-8 leading-tight">
+                <h3 className="text-xl lg:text-2xl font-medium text-gray-700 mb-4 leading-tight">
                   {deals[currentIndex]?.heading}
                 </h3>
 
                 {/* Deal Details Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   
                   {/* Amount */}
                   <div className="bg-gradient-to-br from-blue-50 to-slate-100 p-4 rounded-xl border border-slate-200">
   <div className="text-[1rem] lg:text-xl font-semibold text-slate-700 mb-1">
-    {deals[currentIndex]?.amount ? `${deals[currentIndex].amount} Cr INR` : 'Undisclosed'}
+    {deals[currentIndex]?.amount ? `INR ${deals[currentIndex].amount} Cr` : 'Undisclosed'}
   </div>
   <div className="text-sm font-medium text-slate-600 uppercase tracking-wide">
     Value
@@ -174,13 +166,13 @@ const Feature = () => {
 
                 {/* CTA Button */}
                 <div className="flex items-center space-x-4">
-                  <a
-                    href={`/transaction/${deals[currentIndex]?._id}`}
+                  <Link
+                    to={`/transaction/${deals[currentIndex]?._id}`}
                     className="inline-flex items-center bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-2 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                   >
                     Learn More
                     <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
-                  </a>
+                  </Link>
                   
                   <div className="text-sm text-slate-500">
                     {currentIndex + 1} of {deals.length} deals

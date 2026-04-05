@@ -87,10 +87,7 @@ const About = () => {
           </div>
           <div className="mt-16 p-8 bg-white rounded-3xl shadow-xl border border-gray-100 max-w-4xl text-center mx-auto">
             <p className="text-lg md:text-xl text-gray-700 leading-relaxed italic">
-              "Over the years, we have evolved from a startup with ambitious dreams into a 
-              <span className="font-semibold text-slate-800"> trusted financial partner</span> for clients across diverse sectors. 
-              Our journey is defined by strategic growth, innovative solutions, and an unwavering commitment to delivering 
-              <span className="font-semibold text-slate-800">measurable results</span> that exceed expectations."
+              "Over the years, we have evolved into a trusted financial partner for clients across healthcare and lifesciences sectors. Our journey is defined by client obsession, innovative solutions, and an unwavering commitment to delivering measurable results that exceed expectations."
             </p>
             
             <div className="flex items-center justify-center mt-6 ">

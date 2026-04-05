@@ -100,10 +100,11 @@ const TransactionCarousal = ({ source }) => {
                   {/* Amount - Enhanced Display */}
                   <div className="pt-2 border-t border-slate-200">
                     <div className="flex items-baseline gap-2">
+                      <span className="text-sm text-slate-500 font-medium">INR</span>
                       <span className="text-xl font-bold text-slate-800 group-hover:text-red-600 transition-colors duration-300">
-                        ₹{txn.amount || "—"}
+                        {txn.amount || "—"}
                       </span>
-                      <span className="text-sm text-slate-500 font-medium">Cr INR</span>
+                      <span className="text-sm text-slate-500 font-medium">Cr</span>
                     </div>
                   </div>
                 </div>

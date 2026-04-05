@@ -82,7 +82,7 @@ const [isLoading, setIsLoading] = useState(false);
                     <div>
                       <p className="text-slate-800 font-medium">Phone</p>
                       <a href="tel:+919876543210" className="text-slate-600 hover:text-red-600 transition-colors duration-300">
-                        +91 98765 43210
+                        +91  80 4560 7888
                       </a>
                     </div>
                   </div>
@@ -103,7 +103,7 @@ const [isLoading, setIsLoading] = useState(false);
                    
                     <div>
                       <p className="text-slate-800 font-medium">Business Hours</p>
-                      <p className="text-slate-600">Mon - Fri: 9:00 AM - 6:00 PM</p>
+                      <p className="text-slate-600">Mon - Fri: 9:00 AM - 6:00 PM IST</p>
                     </div>
                   </div>
                 </div>

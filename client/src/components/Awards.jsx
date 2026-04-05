@@ -3,15 +3,12 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom'; // assuming react-router is used
 import { useGetAwardsQuery } from '../redux/apiSlice';
+import awardImage from "../assets/Awards.jpg"; // Default fallback image
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const Awards = () => {
-  // defer loading until component is near viewport
-  const [shouldLoad, setShouldLoad] = useState(false);
-  const containerRef = useRef(null);
-
   // Helper: if the image is served from Cloudinary, request an optimized thumbnail
   const getOptimizedImage = (url, width = 800) => {
     try {
@@ -28,32 +25,12 @@ const Awards = () => {
     return url;
   };
 
-  // IntersectionObserver to avoid fetching below-the-fold content immediately
-  useEffect(() => {
-    if (shouldLoad) return;
-    const node = containerRef.current;
-    if (!node) return;
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setShouldLoad(true);
-          obs.disconnect();
-        }
-      },
-      { rootMargin: '300px' }
-    );
-
-    obs.observe(node);
-    return () => obs.disconnect();
-  }, [shouldLoad]);
-
-  const { data: awards = [], isLoading: loading } = useGetAwardsQuery(undefined, {
-    skip: !shouldLoad,
+  const { data: awards = [], isLoading: loading, isError, error } = useGetAwardsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
   });
 
   return (
-    <div ref={containerRef} className="md:pb-10 pt-8 px-6 max-w-7xl mx-auto">
+    <div className="md:pb-10 pt-8 px-6 max-w-7xl mx-auto">
       <style>
         {`
           .swiper-button-prev,
@@ -89,23 +66,29 @@ const Awards = () => {
           1024: { slidesPerView: 3 },
         }}
       >
-        {awards.length === 0 ? (
+        {loading ? (
           // lightweight skeleton placeholders while content or images load
           Array.from({ length: 3 }).map((_, i) => (
             <SwiperSlide key={`skeleton-${i}`}>
               <div className="h-64 md:h-50 rounded-lg bg-gray-200/80 animate-pulse" />
             </SwiperSlide>
           ))
+        ) : isError ? (
+          <div className="text-center py-10 text-red-500">
+            Error loading awards: {error?.status} {JSON.stringify(error?.data || error?.error)}
+          </div>
+        ) : awards.length === 0 ? (
+          <div className="text-center py-10 text-slate-500">No awards available.</div>
         ) : (
           awards.map((award, index) => (
             <SwiperSlide key={index}>
               <Link to="/awards">
-                <div className="relative h-64 md:h-50 rounded-lg overflow-hidden shadow-lg cursor-pointer group">
+                <div className="relative h-64 md:h-50 rounded-lg overflow-hidden shadow-lg cursor-pointer group bg-slate-50">
                   <img
-                    src={getOptimizedImage(award.awardimageURL, 700)}
+                    src={getOptimizedImage(award.awardimageURL, 700) || awardImage}
                     loading="lazy"
                     alt={`Award ${index + 1}`}
-                    className="w-auto h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
                   />
 
                   {/* Overlay */}

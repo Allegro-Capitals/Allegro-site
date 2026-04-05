@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import HomeIb from '../assets/Home.jpg';
 import { DollarSign, Users, Briefcase, Clock } from 'lucide-react';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 const Careers = () => {
   const [loading, setLoading] = useState(false);
@@ -100,11 +101,11 @@ const Careers = () => {
 
       {/* Buttons */}
       <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-        <a href="/about">
+        <Link to="/about">
           <button className="bg-white text-slate-600 hover:bg-red-700 hover:text-white px-6 py-3 rounded-lg font-medium transition duration-300 w-full sm:w-auto">
             About Us
           </button>
-        </a>
+        </Link>
         <a href="#apply-now">
           <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 w-full sm:w-auto">
             Apply Now

@@ -65,7 +65,7 @@ const TransactionDetail = () => {
           </div>
 
           {/* Enhanced Top Row Images */}
-          <div className="mb-16 opacity-0 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+          <div className="mb-16">
             <div className="flex flex-col md:flex-row justify-around gap-8 w-4/5 mx-auto">
               {[
                 { label: "Representing", value: txn.representing, imageShowing: txn.representingPic },
@@ -77,33 +77,35 @@ const TransactionDetail = () => {
                   <div
                     key={index}
                     className="group relative flex-1 max-w-md mx-auto"
-                    style={{ 
-                      opacity: 0,
-                      animation: `fade-in-up 0.8s ease-out forwards`,
-                      animationDelay: `${400 + index * 200}ms`
-                    }}
                   >
                     {/* Card container */}
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl md:w-[15rem] mx-auto overflow-hidden  transition-all duration-500 transform hover:-translate-y-2 border border-white/20">
+                    <div className="bg-white rounded-2xl md:w-[15rem] mx-auto overflow-hidden shadow-lg border border-slate-100 transition-all duration-300 transform hover:-translate-y-2">
                       {/* Image with overlay */}
-                      <div className="relative md:h-[5rem] overflow-hidden">
-                        <img
-                          src={imageShowing}
-                          alt={value}
-                          className=" md:w-auto w-[12rem] object-cover  "
-                        />
-                       
+                      <div className="relative h-32 md:h-28 flex items-center justify-center bg-slate-50 border-b border-slate-100">
+                        {imageShowing ? (
+                          <img
+                            src={imageShowing}
+                            alt={value}
+                            className="w-full h-full object-contain p-2"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center text-slate-300 h-full">
+                            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        )}
                       </div>
 
                       {/* Content */}
-                      <div className="p-3 md:p-6 relative">
-                        <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-red-500 to-red-600 group-hover:w-full transition-all duration-500 ease-out"></div>
+                      <div className="p-4 md:p-5 relative bg-white">
+                        <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-red-500 to-red-600 group-hover:w-full transition-all duration-300 ease-out"></div>
                         
-                        <h3 className="md:text-xl font-medium text-slate-600 mb-2 group-hover:text-slate-900 transition-colors duration-300">
+                        <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-red-700 transition-colors duration-300 line-clamp-2">
                           {value}
                         </h3>
-                        <p className="text-slate-600 font-medium flex items-center gap-2 text-sm">
-                          <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                        <p className="text-slate-500 font-medium flex items-center gap-2 text-sm">
+                          <span className="w-2 h-2 bg-red-600 rounded-full inline-block"></span>
                           {label}
                         </p>
                       </div>
@@ -139,7 +141,7 @@ const TransactionDetail = () => {
                     {[
                       { label: "Sector", value: txn.sector,},
                       { label: "Type of Deal", value: txn.type_of_deal, },
-                      { label: "Amount", value: `₹${txn.amount} Cr`,  },
+                      { label: "Amount", value: `INR ${txn.amount} Cr`,  },
                       { label: "Year", value: txn.year,}
                     ].map(({ label, value, icon }, index) => (
                       <div key={index} className="group/item">
@@ -216,7 +218,7 @@ const TransactionDetail = () => {
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {[
-                        { label: "Transaction Value", value: `₹${txn.amount} Cr` },
+                        { label: "Transaction Value", value: `INR ${txn.amount} Cr` },
                         { label: "Deal Structure", value: txn.type_of_deal },
                         { label: "Industry Sector", value: txn.sector },
                         { label: "Completion Year", value: txn.year }
