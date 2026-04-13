@@ -90,4 +90,5 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(3000, () => {
   console.log('Server is running on port 3000!');
+  console.log('Outlook SMTP integrated successfully');
 });

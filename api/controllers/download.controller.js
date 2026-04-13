@@ -12,7 +12,9 @@ export const sendPdfLink = async (req, res) => {
 
     // Transporter setup
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: 'smtp-mail.outlook.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER, // your email
         pass: process.env.EMAIL_PASS, // app password
@@ -35,7 +37,7 @@ export const sendPdfLink = async (req, res) => {
       Allegro Capital Pvt. Ltd.<br/>
       The Residency Tower - 2, D’Souza Road, Residency Road, Ashok Nagar<br/>
       Bengaluru, Karnataka 560025<br/>
-      📞 +91 98765 43210 | ✉️ contact@allegroadvisors.com
+      📞 +91 80 4560 7888 | ✉️ contact@allegroadvisors.com
     </p>
       `,
     };
@@ -55,6 +57,6 @@ export const sendPdfLink = async (req, res) => {
     res.json({ success: true, message: "PDF link sent and details saved" });
   } catch (err) {
     console.error("Error sending email:", err);
-    res.status(500).json({ success: false, message: "Failed to send email" });
+    res.status(500).json({ success: false, message: "Failed to send email", error: err.message });
   }
 };

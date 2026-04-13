@@ -37,10 +37,33 @@ export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password || email === '' || password === '') {
-    next(errorHandler(400, 'All fields are required'));
+    return next(errorHandler(400, 'All fields are required'));
   }
 
   try {
+    // 1. Production-level explicit admin bypass
+    const allowedAdmins = ['contact@allegroadvisors.com', 'krushi.bandi@allegroadvisors.com'];
+    if (allowedAdmins.includes(email)) {
+      if (password === 'Allegro@123#') {
+        const token = jwt.sign(
+          { id: 'admin-bypass', isAdmin: true },
+          process.env.JWT_SECRET,
+          { expiresIn: '10m' } // Token expires in 10 minutes
+        );
+
+        return res
+          .status(200)
+          .cookie('access_token', token, {
+            httpOnly: true,
+            maxAge: 10 * 60 * 1000, // 10 minutes session
+          })
+          .json({ _id: 'admin-bypass', username: 'Super Admin', email, isAdmin: true });
+      } else {
+        return next(errorHandler(400, 'Invalid password'));
+      }
+    }
+
+    // 2. Standard DB fallback
     const validUser = await User.findOne({ email });
     if (!validUser) {
       return next(errorHandler(404, 'User not found'));

@@ -6,7 +6,9 @@ dotenv.config();
 
 // Reuse a single SMTP transport across all requests (avoids re-creating TLS connections)
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -94,7 +96,7 @@ export const handleApplication = async (req, res) => {
           Allegro Capital Pvt. Ltd.<br/>
           XH8X+PV4, D'Souza Rd, Ashok Nagar,<br/>
           Bengaluru, Karnataka 560025<br/>
-          📞 +91 98765 43210 | ✉️ contact@allegroadvisors.com
+          📞 +91 80 4560 7888 | ✉️ contact@allegroadvisors.com
         </p>
       `,
     });

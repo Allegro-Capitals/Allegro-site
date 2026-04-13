@@ -3,7 +3,9 @@ import nodemailer from 'nodemailer';
 
 // configure nodemailer
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER, // e.g. "allegro.hr@gmail.com"
     pass: process.env.EMAIL_PASS
@@ -23,7 +25,8 @@ export const submitContactForm = async (req, res) => {
 
     // Send Email to HR in the background (fire-and-forget)
     const mailOptions = {
-      from: `"${name}" <${email}>`,
+      from: `"${name}" <${process.env.EMAIL_USER}>`,
+      replyTo: email,
       to: process.env.EMAIL_USER,
       subject: 'New Contact Form Submission - Allegro Website',
       text: `
