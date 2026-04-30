@@ -33,9 +33,9 @@ const Home = () => {
              
               {/* Main Heading */}
               <h1 className="text-white text-3xl md:text-5xl lg:text-7xl font-light mb-6 leading-tight animate-fade-in-up animation-delay-200">
-                An Independent
+                Your trusted advisor
                 <span className="block text-red-400 font-medium">
-                  Full-Service Investment Bank
+                  For every financial decision
                 </span>
               </h1>
 
