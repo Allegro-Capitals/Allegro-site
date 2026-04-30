@@ -33,7 +33,7 @@ const Home = () => {
              
               {/* Main Heading */}
               <h1 className="text-white text-3xl md:text-5xl lg:text-7xl font-light mb-6 leading-tight animate-fade-in-up animation-delay-200">
-                Your trusted advisor
+                Your Trusted Partner
                 <span className="block text-red-400 font-medium">
                   For every financial decision
                 </span>
@@ -41,8 +41,7 @@ const Home = () => {
 
               {/* Description */}
               <p className="text-slate-200 text-base md:text-lg lg:text-xl max-w-3xl leading-relaxed font-light mb-8 animate-fade-in-up animation-delay-400">
-                Allegro Capital is a leading investment bank in India, providing 
-                comprehensive financial solutions to meet the diverse needs of our clients.
+                Allegro Capital has advised on $20 Bn+ in domestic and cross border transactions over 23 years — delivering independent, conflict-free advice to India's most ambitious companies
               </p>
 
               {/* CTA Buttons */}
